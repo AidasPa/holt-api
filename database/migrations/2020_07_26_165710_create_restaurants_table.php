@@ -17,11 +17,11 @@ class CreateRestaurantsTable extends Migration
             $table->id();
 
             $table->string('title')->unique();
-            $table->string('description');
+            $table->text('description');
             $table->float('rating', 2, 1);
             $table->integer('avg_delivery_time');
             $table->string('phone_number');
-            $table->text('address');
+            $table->string('address');
 
             $table->timestamps();
         });
