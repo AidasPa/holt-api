@@ -70,7 +70,7 @@
                                 <em class="alert-danger">{{ $message }}</em>
                                 @enderror
                             </div>
-                                <div class="form-group">
+                            <div class="form-group">
                                 <label for="address">Address</label>
                                 <input class="form-control" value="{{ old('address') }}" name="address"
                                        type="text"
@@ -79,6 +79,17 @@
                                 @error('address')
                                 <em class="alert-danger">{{ $message }}</em>
                                 @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="categories">Categories</label>
+                                <br />
+                                @foreach($categories as $id => $category)
+                                    <input type="checkbox" id="categories" name="categories[]"
+                                           value="{{ $id }}"
+                                           @if(in_array($id, old('categories', $categoryIds ?? []))) checked @endif
+                                    > {{ $category }}
+                                @endforeach
                             </div>
                         </div>
                         <div class="card-footer">

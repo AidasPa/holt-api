@@ -44,7 +44,8 @@ class RestaurantStoreRequest extends FormRequest
             'rating' => $this->getRating(),
             'avg_delivery_time' => $this->getAverageDeliveryTime(),
             'phone_number' => $this->getPhoneNumber(),
-            'address' => $this->getAddress()
+            'address' => $this->getAddress(),
+            'categories' => $this->getCategories()
         ];
     }
 
@@ -96,4 +97,11 @@ class RestaurantStoreRequest extends FormRequest
         return $this->input('address');
     }
 
+    /**
+     * @return array
+     */
+    public function getCategories(): array
+    {
+        return $this->input('categories', []);
+    }
 }

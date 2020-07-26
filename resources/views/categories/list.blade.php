@@ -6,9 +6,9 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        Restaurants
+                        Categories
                         <a class="btn btn-primary btn-sm float-right text-white"
-                           href="{{ route('restaurants.create') }}">+</a>
+                           href="{{ route('categories.create') }}">+</a>
                     </div>
 
                     <div class="card-body">
@@ -22,8 +22,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Title</th>
-                                <th>Phone Number</th>
-                                <th>Rating</th>
                                 <th>Actions</th>
                             </tr>
 
@@ -31,18 +29,9 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->title }}</td>
-                                    <td>{{ $item->phone_number }}</td>
-                                    <td>{{ $item->rating }}</td>
                                     <td>
                                         <a class="btn btn-sm btn-primary text-white">Edit</a>
-                                        <form action="{{ route('restaurants.destroy', ['restaurant' => $item->id]) }}"
-                                              method="post">
-                                            @csrf
-                                            @method('delete')
-                                            <input type="submit"
-                                                   onclick="return confirm('Do you really want to delete a record?');"
-                                                   class="btn btn-sm btn-danger" value="Delete">
-                                        </form>
+                                        <a class="btn btn-sm btn-danger text-white">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
