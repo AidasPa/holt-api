@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::resource('restaurants', 'RestaurantController')->only(['index', 'create', 'store']);
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

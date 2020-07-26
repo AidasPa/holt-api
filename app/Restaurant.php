@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Restaurant extends Model
 {
@@ -14,4 +15,9 @@ class Restaurant extends Model
         'avg_delivery_time',
         'address',
     ];
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'category_restaurant');
+    }
 }
