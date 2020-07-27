@@ -14,6 +14,7 @@ class Restaurant extends Model
         'phone_number',
         'avg_delivery_time',
         'address',
+        'image'
     ];
 
     public function categories(): BelongsToMany

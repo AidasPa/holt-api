@@ -14,7 +14,7 @@
                         Category
                     </div>
 
-                    <form method="post" action="{{ route('categories.store') }}">
+                    <form method="post" action="{{ route('categories.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             @if (session('status'))
@@ -27,6 +27,14 @@
                                 <input class="form-control" value="{{ old('title') }}" name="title" id="title"/>
 
                                 @error('title')
+                                <em class="alert-danger">{{ $message }}</em>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input class="form-control-file" name="image" id="image" type="file"/>
+
+                                @error('image')
                                 <em class="alert-danger">{{ $message }}</em>
                                 @enderror
                             </div>

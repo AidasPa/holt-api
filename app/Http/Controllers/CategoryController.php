@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CategoryStoreRequest;
-use App\Restaurant;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
@@ -36,7 +36,9 @@ class CategoryController extends Controller
      */
     public function store(CategoryStoreRequest $request): RedirectResponse
     {
-        Category::query()->create($request->getData());
+        $category = new Category($request->getData());
+        $category->image = Storage::disk('public')->putFile('category_images', $request->getImage());
+        $category->save();
 
         return redirect()->route('categories.index')
             ->with('status', 'Category created.');

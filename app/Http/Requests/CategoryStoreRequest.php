@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
 
 class CategoryStoreRequest extends FormRequest
 {
@@ -24,7 +25,8 @@ class CategoryStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|unique:categories,title'
+            'title' => 'required|string|unique:categories,title',
+            'image' => 'required|image'
         ];
     }
 
@@ -44,5 +46,10 @@ class CategoryStoreRequest extends FormRequest
     public function getTitle(): string
     {
         return $this->input('title');
+    }
+
+    public function getImage(): UploadedFile
+    {
+        return $this->file('image');
     }
 }

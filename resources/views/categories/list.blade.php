@@ -22,6 +22,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Title</th>
+                                <th>Image</th>
                                 <th>Actions</th>
                             </tr>
 
@@ -29,6 +30,9 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->title }}</td>
+                                    <td>
+                                        <img width="100px" src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" />
+                                    </td>
                                     <td>
                                         <a class="btn btn-sm btn-primary text-white">Edit</a>
                                         <a class="btn btn-sm btn-danger text-white">Delete</a>
