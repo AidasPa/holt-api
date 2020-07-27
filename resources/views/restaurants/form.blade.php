@@ -14,7 +14,7 @@
                         Product
                     </div>
 
-                    <form method="post" action="{{ route('restaurants.store') }}">
+                    <form method="post" action="{{ route('restaurants.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             @if (session('status'))
@@ -82,6 +82,17 @@
                                        id="address"/>
 
                                 @error('address')
+                                <em class="alert-danger">{{ $message }}</em>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input class="form-control-file"
+                                       name="image"
+                                       type="file"
+                                       id="image"/>
+
+                                @error('image')
                                 <em class="alert-danger">{{ $message }}</em>
                                 @enderror
                             </div>

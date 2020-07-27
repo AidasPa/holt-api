@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Requests\RestaurantStoreRequest;
 use App\Restaurant;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class RestaurantController extends Controller
@@ -42,8 +43,11 @@ class RestaurantController extends Controller
     public function store(RestaurantStoreRequest $request): RedirectResponse
     {
 
+
         /** @var Restaurant $restaurant */
-        $restaurant = Restaurant::query()->create($request->getData());
+        $restaurant = new Restaurant($request->getData());
+        $restaurant->image = Storage::disk('public')->putFile('restaurant_images', $request->getImage());
+        $restaurant->save();
 
         $restaurant->categories()->sync($request->getCategories());
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
 
 class RestaurantStoreRequest extends FormRequest
 {
@@ -29,7 +30,8 @@ class RestaurantStoreRequest extends FormRequest
             'rating' => 'required|numeric|min:0.1|max:10',
             'avg_delivery_time' => 'required|numeric|min:0',
             'phone_number' => 'required|string|min:12',
-            'address' => 'required|string|min:3'
+            'address' => 'required|string|min:3',
+            'image' => 'required|image'
         ];
     }
 
@@ -45,7 +47,6 @@ class RestaurantStoreRequest extends FormRequest
             'avg_delivery_time' => $this->getAverageDeliveryTime(),
             'phone_number' => $this->getPhoneNumber(),
             'address' => $this->getAddress(),
-            'categories' => $this->getCategories()
         ];
     }
 
@@ -103,5 +104,10 @@ class RestaurantStoreRequest extends FormRequest
     public function getCategories(): array
     {
         return $this->input('categories', []);
+    }
+
+    public function getImage(): UploadedFile
+    {
+        return $this->file('image');
     }
 }

@@ -22,6 +22,7 @@ class CreateRestaurantsTable extends Migration
             $table->integer('avg_delivery_time');
             $table->string('phone_number');
             $table->string('address');
+            $table->text('image');
 
             $table->timestamps();
         });
