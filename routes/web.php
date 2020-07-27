@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('restaurants', 'RestaurantController')->only(['index', 'create', 'store', 'destroy']);
+    Route::resource('restaurants', 'RestaurantController')->only(['index', 'create', 'store', 'destroy', 'edit']);
     Route::resource('categories', 'CategoryController')->only(['index', 'create', 'store']);
 });
 

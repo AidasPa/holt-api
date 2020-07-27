@@ -53,8 +53,8 @@ class RestaurantController extends Controller
 
     public function edit(Restaurant $restaurant): View
     {
-        $categories = Category::all();
-        $categoryIds = $restaurant->categories()->pluck('title', 'id');
+        $categories = Category::all()->pluck('title', 'id');
+        $categoryIds = $restaurant->categories()->pluck('id')->toArray();
 
 
         return view('restaurants.form', [

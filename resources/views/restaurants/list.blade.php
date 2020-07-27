@@ -34,7 +34,8 @@
                                     <td>{{ $item->phone_number }}</td>
                                     <td>{{ $item->rating }}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary text-white">Edit</a>
+                                        <a class="btn btn-sm btn-primary text-white"
+                                           href="{{ route('restaurants.edit', ['restaurant' => $item->id]) }}">Edit</a>
                                         <form action="{{ route('restaurants.destroy', ['restaurant' => $item->id]) }}"
                                               method="post">
                                             @csrf

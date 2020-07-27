@@ -24,7 +24,8 @@
                             @endif
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input class="form-control" value="{{ old('title') }}" name="title" id="title"/>
+                                <input class="form-control" value="{{ old('title', $restaurant->title ?? '') }}"
+                                       name="title" id="title"/>
 
                                 @error('title')
                                 <em class="alert-danger">{{ $message }}</em>
@@ -32,9 +33,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control" name="description" id="description">
-                                    {{ old('description') }}
-                                </textarea>
+                                <textarea class="form-control" name="description"
+                                          id="description">{{ old('description', $restaurant->description ?? '') }}</textarea>
 
                                 @error('description')
                                 <em class="alert-danger">{{ $message }}</em>
@@ -42,7 +42,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="rating">Rating</label>
-                                <input class="form-control" value="{{ old('rating', 0.1) }}" name="rating" type="text"
+                                <input class="form-control" value="{{ old('rating', $restaurant->rating ?? 0.1) }}"
+                                       name="rating" type="text"
                                        min="0" max="10"
                                        id="rating"/>
 
@@ -52,7 +53,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="avg_delivery_time">Average delivery time</label>
-                                <input class="form-control" value="{{ old('avg_delivery_time') }}"
+                                <input class="form-control"
+                                       value="{{ old('avg_delivery_time', $restaurant->avg_delivery_time ?? '') }}"
                                        name="avg_delivery_time" type="number"
                                        id="avg_delivery_time"/>
 
@@ -62,7 +64,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="phone_number">Phone number</label>
-                                <input class="form-control" value="{{ old('phone_number') }}" name="phone_number"
+                                <input class="form-control"
+                                       value="{{ old('phone_number', $restaurant->phone_number ?? '') }}"
+                                       name="phone_number"
                                        type="text"
                                        id="phone_number"/>
 
@@ -72,7 +76,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="address">Address</label>
-                                <input class="form-control" value="{{ old('address') }}" name="address"
+                                <input class="form-control" value="{{ old('address', $restaurant->address ?? '') }}"
+                                       name="address"
                                        type="text"
                                        id="address"/>
 
@@ -83,7 +88,7 @@
 
                             <div class="form-group">
                                 <label for="categories">Categories</label>
-                                <br />
+                                <br/>
                                 @foreach($categories as $id => $category)
                                     <input type="checkbox" id="categories" name="categories[]"
                                            value="{{ $id }}"
