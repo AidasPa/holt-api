@@ -26,6 +26,7 @@ class RestaurantDTO extends DTO
     protected function jsonData(): array
     {
         return [
+            'id' => $this->restaurant->id,
             'title' => $this->restaurant->title,
             'description' => $this->restaurant->description,
             'rating' => $this->restaurant->rating,
@@ -33,7 +34,7 @@ class RestaurantDTO extends DTO
             'phone_number' => $this->restaurant->phone_number,
             'address' => $this->restaurant->address,
             'categories' => $this->getCategoryTitles(),
-            'image' => Storage::url($this->restaurant->image)
+            'image' => env('APP_URL') . Storage::url($this->restaurant->image),
         ];
     }
 

@@ -20,7 +20,7 @@ class RestaurantController extends Controller
         $restaurants = Restaurant::query()
         ->with('categories')
         ->orderBy('created_at')
-        ->paginate(1);
+        ->paginate(15);
 
         $paginateDTO = new PaginateLengthAwareDTO($restaurants);
         $restaurantsDTO = new CollectionDTO();

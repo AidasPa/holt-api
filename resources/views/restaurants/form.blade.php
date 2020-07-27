@@ -11,7 +11,7 @@
                         @else
                             New
                         @endif
-                        Product
+                        Restaurant
                     </div>
 
                     <form method="post" action="{{
