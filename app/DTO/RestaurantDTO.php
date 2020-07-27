@@ -30,11 +30,9 @@ class RestaurantDTO extends DTO
             'title' => $this->restaurant->title,
             'description' => $this->restaurant->description,
             'rating' => $this->restaurant->rating,
-            'avg_delivery_time' => $this->restaurant->avg_delivery_time,
-            'phone_number' => $this->restaurant->phone_number,
-            'address' => $this->restaurant->address,
             'categories' => $this->getCategoryTitles(),
             'image' => env('APP_URL') . Storage::url($this->restaurant->image),
+            'image_blurhash' => $this->restaurant->image_blurhash
         ];
     }
 
@@ -44,6 +42,11 @@ class RestaurantDTO extends DTO
     private function getCategoryTitles(): Collection
     {
         return $this->restaurant->categories()->pluck('title');
+    }
+
+    protected function extendedJsonData(): array
+    {
+        // TODO: Implement extendedJsonData() method.
     }
 
 }

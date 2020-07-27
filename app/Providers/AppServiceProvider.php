@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\BlurhashService;
+use App\Helpers\BlurhashHelper;
+use App\Services\RestaurantService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,9 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(BlurhashService::class, function () {
-            return new BlurhashService();
-        });
+        $this->app->singleton(BlurhashHelper::class);
+
+        $this->app->singleton(RestaurantService::class);
     }
 
     /**

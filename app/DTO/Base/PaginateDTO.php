@@ -122,4 +122,5 @@ class PaginateDTO extends DTO
     {
         return $this->content->toArray();
     }
+
 }

@@ -35,4 +35,5 @@ class CollectionDTO extends DTO
     {
         return $this->collection->toArray();
     }
+
 }

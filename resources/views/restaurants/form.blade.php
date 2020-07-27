@@ -95,6 +95,7 @@
                                     <img src="{{ \Illuminate\Support\Facades\Storage::url($restaurant->image) }}"
                                          width="50%"/>
                                 @endif
+                                <br/>
                                 <label for="image">Image</label>
                                 <input class="form-control-file"
                                        name="image"
@@ -105,12 +106,13 @@
                                 <em class="alert-danger">{{ $message }}</em>
                                 @enderror
                             </div>
-                                <div class="form-group">
+                            <div class="form-group">
                                 @if(isset($restaurant->id))
                                     @method('put')
-                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($restaurant->image) }}"
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($restaurant->banner) }}"
                                          width="50%"/>
                                 @endif
+                                <br/>
                                 <label for="banner">Banner</label>
                                 <input class="form-control-file"
                                        name="banner"
@@ -132,6 +134,22 @@
                                     > {{ $category }}
                                 @endforeach
                             </div>
+                            @if(isset($restaurant->id))
+                                <div class="form-group">
+                                    <label for="image_blurhash">Image Blurhash</label>
+                                    <br/>
+                                    <input type="text" id="image_blurhash" disabled
+                                           class="form-control"
+                                           value="{{ $restaurant->image_blurhash }}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="banner_blurhash">Banner Blurhash</label>
+                                    <br/>
+                                    <input type="text" id="banner_blurhash" disabled
+                                           class="form-control"
+                                           value="{{ $restaurant->banner_blurhash }}"/>
+                                </div>
+                            @endif
                         </div>
                         <div class="card-footer">
                             <input type="submit" class="btn btn-success" value="Save"/>

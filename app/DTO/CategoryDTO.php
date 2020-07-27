@@ -31,6 +31,14 @@ class CategoryDTO extends DTO
     }
 
     /**
+     * @return array
+     */
+    protected function extendedJsonData(): array
+    {
+        // TODO: Implement extendedJsonData() method.
+    }
+
+    /**
      * @return int
      */
     private function getRestaurantCount(): int

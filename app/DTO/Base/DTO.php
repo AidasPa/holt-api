@@ -11,6 +11,7 @@ abstract class DTO implements JsonSerializable
      */
     abstract protected function jsonData(): array;
 
+
     /**
      * @see JsonSerializable::jsonSerialize()
      * @return array
