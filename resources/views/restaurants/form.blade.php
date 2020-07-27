@@ -93,7 +93,7 @@
                                 @if(isset($restaurant->id))
                                     @method('put')
                                     <img src="{{ \Illuminate\Support\Facades\Storage::url($restaurant->image) }}"
-                                         width="100%"/>
+                                         width="50%"/>
                                 @endif
                                 <label for="image">Image</label>
                                 <input class="form-control-file"
@@ -102,6 +102,22 @@
                                        id="image"/>
 
                                 @error('image')
+                                <em class="alert-danger">{{ $message }}</em>
+                                @enderror
+                            </div>
+                                <div class="form-group">
+                                @if(isset($restaurant->id))
+                                    @method('put')
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($restaurant->image) }}"
+                                         width="50%"/>
+                                @endif
+                                <label for="banner">Banner</label>
+                                <input class="form-control-file"
+                                       name="banner"
+                                       type="file"
+                                       id="banner"/>
+
+                                @error('banner')
                                 <em class="alert-danger">{{ $message }}</em>
                                 @enderror
                             </div>
