@@ -20,5 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::namespace('API')->group(function () {
     Route::get('/restaurants', 'RestaurantController@index');
+    Route::get('/restaurants/recent', 'RestaurantController@recent');
+
     Route::get('/categories', 'CategoryController@index');
 });

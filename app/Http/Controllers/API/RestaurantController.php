@@ -32,4 +32,19 @@ class RestaurantController extends Controller
 
         return response()->json($paginateDTO);
     }
+
+    public function recent(): JsonResponse
+    {
+        $restaurants = Restaurant::query()
+            ->orderBy('created_at')
+            ->limit(10)
+            ->get();
+        $restaurantsDTO = new CollectionDTO();
+
+        foreach ($restaurants as $restaurant) {
+            $restaurantsDTO->pushItem(new RestaurantDTO($restaurant));
+        }
+
+        return response()->json($restaurantsDTO);
+    }
 }
