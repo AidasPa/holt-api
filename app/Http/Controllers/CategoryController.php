@@ -37,7 +37,9 @@ class CategoryController extends Controller
     public function store(CategoryStoreRequest $request): RedirectResponse
     {
         $category = new Category($request->getData());
-        $category->image = Storage::disk('public')->putFile('category_images', $request->getImage());
+        if ($image = $request->getImage()) {
+            $category->image = Storage::disk('public')->putFile('category_images', $image);
+        }
         $category->save();
 
         return redirect()->route('categories.index')

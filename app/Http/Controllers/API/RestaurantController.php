@@ -10,6 +10,9 @@ use Illuminate\Http\JsonResponse;
 
 class RestaurantController extends Controller
 {
+    /**
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         $restaurants = Restaurant::all();

@@ -31,7 +31,11 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->title }}</td>
                                     <td>
+                                        @if($item->image)
                                         <img width="100px" src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" />
+                                        @else
+                                        No IMG
+                                        @endif
                                     </td>
                                     <td>
                                         <a class="btn btn-sm btn-primary text-white">Edit</a>

@@ -26,7 +26,7 @@ class CategoryStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|unique:categories,title',
-            'image' => 'required|image'
+            'image' => 'nullable|image'
         ];
     }
 
@@ -48,8 +48,11 @@ class CategoryStoreRequest extends FormRequest
         return $this->input('title');
     }
 
-    public function getImage(): UploadedFile
+    /**
+     * @return array|UploadedFile|UploadedFile[]|null
+     */
+    public function getImage()
     {
-        return $this->file('image');
+        return $this->file('image', false);
     }
 }
