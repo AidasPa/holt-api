@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\RestaurantStoreRequest;
+use App\Http\Requests\RestaurantUpdateRequest;
 use App\Restaurant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -79,5 +80,14 @@ class RestaurantController extends Controller
 
         return redirect()->route('restaurants.index')
             ->with('status', 'Restaurant deleted.');
+    }
+
+    public function update(Restaurant $restaurant, RestaurantUpdateRequest $request): RedirectResponse
+    {
+        $restaurant->update($request->getData());
+        $restaurant->categories()->sync($request->getCategories());
+
+        return redirect()->route('restaurants.index')
+            ->with('status', 'Restaurant updated');
     }
 }

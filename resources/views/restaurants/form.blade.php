@@ -6,15 +6,19 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        @if(isset($item->id))
-                            New
-                        @else
+                        @if(isset($restaurant->id))
                             Edit
+                        @else
+                            New
                         @endif
                         Product
                     </div>
 
-                    <form method="post" action="{{ route('restaurants.store') }}" enctype="multipart/form-data">
+                    <form method="post" action="{{
+                                            isset($restaurant->id)
+                                            ? route('restaurants.update', ['restaurant' => $restaurant->id])
+                                            : route('restaurants.store')
+                                                 }}" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             @if (session('status'))
@@ -86,6 +90,11 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                @if(isset($restaurant->id))
+                                    @method('put')
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($restaurant->image) }}"
+                                         width="100%"/>
+                                @endif
                                 <label for="image">Image</label>
                                 <input class="form-control-file"
                                        name="image"
