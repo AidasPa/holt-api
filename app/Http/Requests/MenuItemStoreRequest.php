@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
 
 class MenuItemStoreRequest extends FormRequest
 {
@@ -27,7 +28,8 @@ class MenuItemStoreRequest extends FormRequest
             'title' => 'required|string|min:3',
             'description' => 'required|string|min:12',
             'price' => 'required|numeric|min:0.1',
-            'menu_category' => 'required|numeric|exists:menu_categories,id'
+            'menu_category' => 'required|numeric|exists:menu_categories,id',
+            'image' => 'required|image'
         ];
     }
 
@@ -74,5 +76,13 @@ class MenuItemStoreRequest extends FormRequest
     public function getMenuCategoryId(): int
     {
         return (int)$this->input('menu_category');
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImage(): UploadedFile
+    {
+        return $this->file('image');
     }
 }

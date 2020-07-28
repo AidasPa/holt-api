@@ -4,12 +4,28 @@
 namespace App\Services;
 
 
+use App\Helpers\BlurhashHelper;
 use App\MenuCategory;
 use App\MenuItem;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class MenuService
 {
+    protected BlurhashHelper $blurhashHelper;
+
+    /**
+     * MenuService constructor.
+     * @param BlurhashHelper $blurhashHelper
+     */
+    public function __construct(BlurhashHelper $blurhashHelper)
+    {
+        $this->blurhashHelper = $blurhashHelper;
+    }
+
+
     /**
      * @param array $data
      * @param int $restaurantId
@@ -41,11 +57,14 @@ class MenuService
 
     /**
      * @param array $data
+     * @param UploadedFile $image
      * @param int $menuCategoryId
      */
-    public function createMenuItem(array $data, int $menuCategoryId): void
+    public function createMenuItem(array $data, UploadedFile $image, int $menuCategoryId): void
     {
         $menuItem = new MenuItem($data);
+        $menuItem->image = Storage::disk('public')->putFile('menu_item_images', $image);
+        $menuItem->image_blurhash = $this->blurhashHelper->generateBlurhash($image);
         $menuItem->menu_category_id = $menuCategoryId;
 
         $menuItem->save();
@@ -63,8 +82,18 @@ class MenuService
     /**
      * @return Collection
      */
-    public function getAllMenuItems(): Collection
+    public function getAllMenuItems(int $restaurantId): Collection
     {
-        return MenuItem::query()->with('category')->get();
+//        return MenuItem::query()
+//            ->with('category.restaurant', function ($query) use ($restaurantId) {
+//                $query->where('restaurant_id', '=', $restaurantId);
+//            })
+//            ->with('category')
+//            ->get();
+        return MenuItem::query()
+            ->whereHas('category.restaurant', function (Builder $query) use ($restaurantId) {
+                $query->where('restaurant_id', '=', $restaurantId);
+            })
+            ->get();
     }
 }

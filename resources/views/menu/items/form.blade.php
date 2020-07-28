@@ -53,13 +53,26 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="image">Image</label>
+                                <input class="form-control-file"
+                                       name="image"
+                                       type="file"
+                                       id="image"/>
+
+                                @error('image')
+                                <em class="alert-danger">{{ $message }}</em>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="menu_category">Menu Category</label>
                                 <select name="menu_category" id="menu_category" class="form-control">
                                     @foreach($menuCategories as $category)
                                         <option
                                             value="{{ $category->id }}"
+                                            @if(isset($item->id))
                                             @if($category->id === $item->id)
                                             selected
+                                            @endif
                                             @endif
                                         >{{ $category->title }}</option>
                                     @endforeach

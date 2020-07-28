@@ -27,7 +27,8 @@ class MenuItemController extends Controller
      */
     public function index(int $restaurantId): View
     {
-        $menuItems = $this->menuService->getAllMenuItems();
+        $menuItems = $this->menuService->getAllMenuItems($restaurantId);
+
         return view('menu.items.list', [
             'items' => $menuItems,
             'restaurantId' => $restaurantId
@@ -36,11 +37,16 @@ class MenuItemController extends Controller
 
     /**
      * @param int $restaurantId
-     * @return View
+     * @return View|RedirectResponse
      */
-    public function create(int $restaurantId): View
+    public function create(int $restaurantId)
     {
         $menuCategories = $this->menuService->getAllMenuCategories($restaurantId);
+        if (count($menuCategories) < 1) {
+            return redirect()->route('restaurants.menu.categories.create', [
+                'restaurant' => $restaurantId
+            ])->with('status', 'Must create a menu category first!');
+        }
         return view('menu.items.form', [
             'restaurantId' => $restaurantId,
             'menuCategories' => $menuCategories
@@ -54,7 +60,7 @@ class MenuItemController extends Controller
      */
     public function store(int $restaurantId, MenuItemStoreRequest $request): RedirectResponse
     {
-        $this->menuService->createMenuItem($request->getData(), $request->getMenuCategoryId());
+        $this->menuService->createMenuItem($request->getData(), $request->getImage(), $request->getMenuCategoryId());
 
         return redirect()->route('restaurants.menu.items.index', [
             'restaurant' => $restaurantId
