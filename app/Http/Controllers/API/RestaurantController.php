@@ -8,10 +8,23 @@ use App\DTO\Base\PaginateLengthAwareDTO;
 use App\DTO\RestaurantDTO;
 use App\Http\Controllers\Controller;
 use App\Restaurant;
+use App\Services\RestaurantService;
 use Illuminate\Http\JsonResponse;
 
 class RestaurantController extends Controller
 {
+    protected RestaurantService $restaurantService;
+
+    /**
+     * RestaurantController constructor.
+     * @param RestaurantService $restaurantService
+     */
+    public function __construct(RestaurantService $restaurantService)
+    {
+        $this->restaurantService = $restaurantService;
+    }
+
+
     /**
      * @return JsonResponse
      */
@@ -33,6 +46,9 @@ class RestaurantController extends Controller
         return response()->json($paginateDTO);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function recent(): JsonResponse
     {
         $restaurants = Restaurant::query()
@@ -46,5 +62,12 @@ class RestaurantController extends Controller
         }
 
         return response()->json($restaurantsDTO);
+    }
+
+    public function show(Restaurant $restaurant): JsonResponse
+    {
+        $restaurantDTO = new RestaurantDTO($restaurant);
+
+        return response()->json($restaurantDTO->extendedJsonData());
     }
 }

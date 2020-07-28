@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class RestaurantDTO extends DTO
 {
-    private $restaurant;
+    private Restaurant $restaurant;
 
     /**
      * RestaurantDTO constructor.
@@ -23,7 +23,7 @@ class RestaurantDTO extends DTO
     /**
      * @return array
      */
-    protected function jsonData(): array
+    public function jsonData(): array
     {
         return [
             'id' => $this->restaurant->id,
@@ -31,8 +31,10 @@ class RestaurantDTO extends DTO
             'description' => $this->restaurant->description,
             'rating' => $this->restaurant->rating,
             'categories' => $this->getCategoryTitles(),
-            'image' => env('APP_URL') . Storage::url($this->restaurant->image),
-            'image_blurhash' => $this->restaurant->image_blurhash
+            'image' => [
+                'url' => env('APP_URL') . Storage::url($this->restaurant->image),
+                'blurhash' => $this->restaurant->image_blurhash
+            ],
         ];
     }
 
@@ -44,9 +46,45 @@ class RestaurantDTO extends DTO
         return $this->restaurant->categories()->pluck('title');
     }
 
-    protected function extendedJsonData(): array
+    /**
+     * @return array
+     */
+    public function extendedJsonData(): array
     {
-        // TODO: Implement extendedJsonData() method.
+        return [
+            'id' => $this->restaurant->id,
+            'title' => $this->restaurant->title,
+            'description' => $this->restaurant->description,
+            'rating' => $this->restaurant->rating,
+            'categories' => $this->getCategoryTitles(),
+            'phone_number' => $this->restaurant->phone_number,
+            'avg_delivery_time' => $this->restaurant->avg_delivery_time,
+            'image' => [
+                'url' => $this->getImageUrl(),
+                'blurhash' => $this->restaurant->image_blurhash
+            ],
+            'banner' => [
+                'url' => $this->getBannerUrl(),
+                'blurhash' => $this->restaurant->banner_blurhash
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    private function getImageUrl(): string
+    {
+        return env('APP_URL') . Storage::url($this->restaurant->image);
+    }
+
+    /**
+     * @return string|null
+     */
+    private function getBannerUrl(): ?string
+    {
+        return env('APP_URL') . Storage::url($this->restaurant->banner);
+
     }
 
 }
