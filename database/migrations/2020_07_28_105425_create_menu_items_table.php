@@ -20,6 +20,9 @@ class CreateMenuItemsTable extends Migration
             $table->text('description');
             $table->float('price');
 
+            $table->text('image');
+            $table->string('image_blurhash');
+
             $table->unsignedBigInteger('menu_category_id');
             $table->foreign('menu_category_id')
                 ->references('id')

@@ -59,16 +59,12 @@ class RestaurantController extends Controller
      */
     public function store(RestaurantStoreRequest $request): RedirectResponse
     {
-        $imageBlurhash = $this->blurhashHelper->generateBlurhash($request->getImage());
-        $bannerBlurhash = $request->getBanner() ? $this->blurhashHelper->generateBlurhash($request->getBanner()) : null;
 
         $this->restaurantService->createRestaurant(
             $request->getData(),
             $request->getCategories(),
             $request->getImage(),
             $request->getBanner(),
-            $imageBlurhash,
-            $bannerBlurhash
         );
 
         return redirect()->route('restaurants.index')
