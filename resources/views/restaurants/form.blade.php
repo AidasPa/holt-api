@@ -26,6 +26,19 @@
                                     {{ session('status') }}
                                 </div>
                             @endif
+                            @if(isset($restaurant->id))
+                                <div class="row">
+                                    <hr/>
+                                    <div class="col-6">
+                                        <a href="{{ route('restaurants.menu.categories.index', ['restaurant' => $restaurant->id]) }}" class="btn btn-primary w-100 text-white">Menu Categories</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a class="btn btn-primary w-100 text-white">Menu Items</a>
+                                    </div>
+                                </div>
+                                <hr/>
+
+                            @endif
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input class="form-control" value="{{ old('title', $restaurant->title ?? '') }}"
