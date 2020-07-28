@@ -19,9 +19,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('API')->group(function () {
-    Route::get('/restaurants', 'RestaurantController@index');
-    Route::get('/restaurants/recent', 'RestaurantController@recent');
-    Route::get('/restaurants/{restaurant}', 'RestaurantController@show');
+    Route::prefix('restaurants')->group(function () {
+        Route::get('/', 'RestaurantController@index');
+        Route::get('recent', 'RestaurantController@recent');
+        Route::get('{restaurant}', 'RestaurantController@show');
+
+        Route::get('{restaurant}/menu', 'MenuController@show');
+
+    });
 
     Route::get('/categories', 'CategoryController@index');
 });

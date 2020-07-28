@@ -13,7 +13,7 @@ class MenuCategoryController extends Controller
     protected MenuService $menuService;
 
     /**
-     * MenuCategoryController constructor.
+     * MenuController constructor.
      * @param MenuService $menuService
      */
     public function __construct(MenuService $menuService)

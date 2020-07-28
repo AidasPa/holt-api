@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryDTO extends DTO
 {
-    protected $category;
+    private Category $category;
 
     public function __construct(Category $category)
     {
