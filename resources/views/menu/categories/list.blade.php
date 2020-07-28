@@ -6,7 +6,7 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        Categories
+                        Menu Categories
                         <a class="btn btn-primary btn-sm float-right text-white"
                            href="{{ route('restaurants.menu.categories.create', ['restaurant' => $restaurantId]) }}">+</a>
                     </div>
@@ -29,21 +29,22 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->title }}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary text-white"
-{{--                                           href="{{ route('restaurants.edit', ['restaurant' => $item->id]) }}">Edit</a>--}}
-{{--                                        <form action="{{ route('restaurants.destroy', ['restaurant' => $item->id]) }}"--}}
-                                              method="post">
-{{--                                            @csrf--}}
-{{--                                            @method('delete')--}}
-                                            <input type="submit"
+                                        <form method="post"
+                                              action="{{ route('restaurants.menu.categories.destroy', ['restaurant' => $restaurantId, 'category' => $item->id]) }}">
+                                            @csrf
+                                            @method('delete')
+
+                                            <input type="submit" value="Delete"
                                                    onclick="return confirm('Do you really want to delete a record?');"
-                                                   class="btn btn-sm btn-danger" value="Delete">
-{{--                                        </form>--}}
+                                                   class="btn btn-danger btn-sm"/>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </table>
-
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ route('restaurants.edit', ['restaurant' => $restaurantId]) }}" class="btn btn-primary text-white">Back to Restaurant</a>
                     </div>
                 </div>
             </div>

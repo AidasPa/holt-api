@@ -24,6 +24,8 @@ class CreateMenuCategoriesTable extends Migration
                 ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
 
+            $table->unique(['title', 'restaurant_id']);
+
             $table->timestamps();
         });
     }

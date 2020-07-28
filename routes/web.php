@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/restaurants/{restaurant}/menu/categories', 'MenuCategoryController')->only(['index']);
 
     Route::prefix('restaurants/{restaurant}/menu')->name('restaurants.menu.')->group(function () {
-        Route::resource('categories', 'MenuCategoryController')->only(['index', 'create', 'store']);
+        Route::resource('categories', 'MenuCategoryController')->only(['index', 'create', 'store', 'destroy']);
     });
 });
 
