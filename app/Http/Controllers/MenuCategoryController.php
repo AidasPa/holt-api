@@ -28,7 +28,7 @@ class MenuCategoryController extends Controller
      */
     public function index(int $restaurantId): View
     {
-        $menuCategories = MenuCategory::all();
+        $menuCategories = $this->menuService->getAllMenuCategories($restaurantId);
         return view('menu.categories.list', [
             'items' => $menuCategories,
             'restaurantId' => $restaurantId,

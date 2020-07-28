@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MenuItemStoreRequest;
+use App\MenuItem;
 use App\Services\MenuService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -39,7 +40,7 @@ class MenuItemController extends Controller
      */
     public function create(int $restaurantId): View
     {
-        $menuCategories = $this->menuService->getAllMenuCategories();
+        $menuCategories = $this->menuService->getAllMenuCategories($restaurantId);
         return view('menu.items.form', [
             'restaurantId' => $restaurantId,
             'menuCategories' => $menuCategories
@@ -58,6 +59,36 @@ class MenuItemController extends Controller
         return redirect()->route('restaurants.menu.items.index', [
             'restaurant' => $restaurantId
         ])->with('status', 'Menu item created.');
+    }
+
+    /**
+     * @param int $restaurantId
+     * @param MenuItem $item
+     * @return View
+     */
+    public function edit(int $restaurantId, MenuItem $item): View
+    {
+        $menuCategories = $this->menuService->getAllMenuCategories($restaurantId);
+
+        return view('menu.items.form', [
+            'item' => $item,
+            'restaurantId' => $restaurantId,
+            'menuCategories' => $menuCategories
+        ]);
+    }
+
+    /**
+     * @param int $restaurantId
+     * @param MenuItem $item
+     * @return RedirectResponse
+     */
+    public function destroy(int $restaurantId, MenuItem $item): RedirectResponse
+    {
+        $this->menuService->deleteMenuItem($item);
+
+        return redirect()->route('restaurants.menu.items.index', [
+            'restaurant' => $restaurantId
+        ])->with('status', 'Menu item deleted.');
     }
 
 }

@@ -25,9 +25,9 @@ class MenuService
     /**
      * @return Collection
      */
-    public function getAllMenuCategories(): Collection
+    public function getAllMenuCategories(int $restaurantId): Collection
     {
-        return MenuCategory::all();
+        return MenuCategory::query()->where('restaurant_id', '=', $restaurantId)->get();
     }
 
     /**
@@ -49,6 +49,15 @@ class MenuService
         $menuItem->menu_category_id = $menuCategoryId;
 
         $menuItem->save();
+    }
+
+    /**
+     * @param MenuItem $menuItem
+     * @throws \Exception
+     */
+    public function deleteMenuItem(MenuItem $menuItem): void
+    {
+        $menuItem->delete();
     }
 
     /**

@@ -26,8 +26,8 @@
                             @endif
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input class="form-control" value="{{ old('title') }}" name="title" id="title"/>
-
+                                <input class="form-control" value="{{ old('title', $item->title ?? '') }}" name="title"
+                                       id="title"/>
                                 @error('title')
                                 <em class="alert-danger">{{ $message }}</em>
                                 @enderror
@@ -35,7 +35,7 @@
                             <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea class="form-control" name="description"
-                                          id="description">{{ old('description') }}</textarea>
+                                          id="description">{{ old('description', $item->description ?? '') }}</textarea>
 
                                 @error('description')
                                 <em class="alert-danger">{{ $message }}</em>
@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input class="form-control" value="{{ old('price' ?? 0.1) }}"
+                                <input class="form-control" value="{{ old('price', $item->price ?? 0.1) }}"
                                        name="price" type="text"
                                        min="0.1"
                                        id="price"/>
@@ -55,8 +55,13 @@
                             <div class="form-group">
                                 <label for="menu_category">Menu Category</label>
                                 <select name="menu_category" id="menu_category" class="form-control">
-                                    @foreach($menuCategories as $item)
-                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
+                                    @foreach($menuCategories as $category)
+                                        <option
+                                            value="{{ $category->id }}"
+                                            @if($category->id === $item->id)
+                                            selected
+                                            @endif
+                                        >{{ $category->title }}</option>
                                     @endforeach
                                 </select>
 
