@@ -59,6 +59,7 @@ class RestaurantDTO extends DTO
             'categories' => $this->getCategoryTitles(),
             'phone_number' => $this->restaurant->phone_number,
             'avg_delivery_time' => $this->restaurant->avg_delivery_time,
+            'address' => $this->restaurant->address,
             'image' => [
                 'url' => $this->getImageUrl(),
                 'blurhash' => $this->restaurant->image_blurhash
