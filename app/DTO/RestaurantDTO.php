@@ -31,6 +31,7 @@ class RestaurantDTO extends DTO
             'description' => $this->restaurant->description,
             'rating' => $this->restaurant->rating,
             'categories' => $this->getCategoryTitles(),
+            'address' => $this->restaurant->address,
             'image' => [
                 'url' => env('APP_URL') . Storage::url($this->restaurant->image),
                 'blurhash' => $this->restaurant->image_blurhash
