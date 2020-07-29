@@ -31,7 +31,8 @@ class RestaurantUpdateRequest extends FormRequest
             'avg_delivery_time' => 'required|numeric|min:0',
             'phone_number' => 'required|string|min:12',
             'address' => 'required|string|min:3',
-            'image' => 'nullable|image'
+            'image' => 'nullable|image',
+            'banner' => 'nullable|image',
         ];
     }
 
@@ -106,8 +107,20 @@ class RestaurantUpdateRequest extends FormRequest
         return $this->input('categories', []);
     }
 
-    public function getImage(): UploadedFile
+
+    /**
+     * @return UploadedFile|null
+     */
+    public function getImage(): ?UploadedFile
     {
         return $this->file('image');
+    }
+
+    /**
+     * @return UploadedFile|null
+     */
+    public function getBanner(): ?UploadedFile
+    {
+        return $this->file('banner');
     }
 }

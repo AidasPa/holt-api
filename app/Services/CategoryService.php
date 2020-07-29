@@ -55,7 +55,7 @@ class CategoryService
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getPluckedCategories(): Collection
+    public function getPluckedCategories(): \Illuminate\Support\Collection
     {
         return Category::all()->pluck('title', 'id');
     }

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
-use App\DTO\Base\CollectionDTO;
-use App\DTO\Base\PaginateLengthAwareDTO;
 use App\DTO\RestaurantDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SearchRequest;
 use App\Restaurant;
 use App\Services\RestaurantService;
 use Illuminate\Http\JsonResponse;
@@ -44,10 +43,21 @@ class RestaurantController extends Controller
         return response()->json($restaurants);
     }
 
+    /**
+     * @param Restaurant $restaurant
+     * @return JsonResponse
+     */
     public function show(Restaurant $restaurant): JsonResponse
     {
         $restaurantDTO = new RestaurantDTO($restaurant);
 
         return response()->json($restaurantDTO->extendedJsonData());
+    }
+
+    public function search(SearchRequest $request): JsonResponse
+    {
+        $results = $this->restaurantService->searchByTitleJson($request->getQuery());
+
+        return response()->json($results);
     }
 }

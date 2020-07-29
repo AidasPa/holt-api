@@ -28,6 +28,9 @@ Route::namespace('API')->group(function () {
     Route::prefix('restaurants')->group(function () {
         Route::get('/', 'RestaurantController@index');
         Route::get('recent', 'RestaurantController@recent');
+
+        Route::get('search', 'RestaurantController@search');
+
         Route::get('{restaurant}', 'RestaurantController@show');
 
         Route::get('{restaurant}/menu', 'MenuController@show');

@@ -106,10 +106,16 @@ class RestaurantController extends Controller
 
     public function update(Restaurant $restaurant, RestaurantUpdateRequest $request): RedirectResponse
     {
-        $restaurant->update($request->getData());
-        $restaurant->categories()->sync($request->getCategories());
+        $this->restaurantService->updateRestaurantWithRelations(
+            $restaurant,
+            $request->getData(),
+            $request->getCategories(),
+            $request->getImage(),
+            $request->getBanner()
+        );
 
         return redirect()->route('restaurants.index')
             ->with('status', 'Restaurant updated');
     }
+
 }

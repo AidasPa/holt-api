@@ -10,6 +10,7 @@ use App\DTO\RestaurantDTO;
 use App\Helpers\BlurhashHelper;
 use App\Restaurant;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class RestaurantService
@@ -90,8 +91,30 @@ class RestaurantService
         return $restaurantsDTO->jsonData();
     }
 
-    public function updateRestaurantWithRelations(Restaurant $restaurant, array $data, array $categoryIds): void
+    /**
+     * @param Restaurant $restaurant
+     * @param array $data
+     * @param array $categoryIds
+     * @param UploadedFile|null $image
+     * @param UploadedFile|null $banner
+     */
+    public function updateRestaurantWithRelations(
+        Restaurant $restaurant,
+        array $data,
+        array $categoryIds,
+        ?UploadedFile $image,
+        ?UploadedFile $banner): void
     {
+        if ($image) {
+            $data['image'] = Storage::disk('public')->putFile('restaurant_images', $image);
+            $data['image_blurhash'] = $this->blurhashHelper->generateBlurhash($image);
+        }
+        if($banner) {
+            $data['banner'] = Storage::disk('public')->putFile('restaurant_images', $banner);
+            $data['banner_blurhash'] = $this->blurhashHelper->generateBlurhash($banner);
+        }
+        $restaurant->update($data);
+        $restaurant->categories()->sync($categoryIds);
 
     }
 
@@ -102,6 +125,23 @@ class RestaurantService
     public function deleteRestaurant(Restaurant $restaurant): void
     {
         $restaurant->delete();
+    }
+
+    /**
+     * @param string $query
+     * @return array
+     */
+    public function searchByTitleJson(string $query): array
+    {
+        $results = Restaurant::query()->where('title', 'like', "%$query%")->get();
+
+        $resultsDTO = new CollectionDTO();
+
+        foreach ($results as $restaurant) {
+            $resultsDTO->pushItem(new RestaurantDTO($restaurant));
+        }
+
+        return $resultsDTO->jsonData();
     }
 
 

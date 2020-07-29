@@ -48,6 +48,18 @@ class MenuCategoryController extends Controller
 
     /**
      * @param int $restaurantId
+     * @return View
+     */
+    public function edit(int $restaurantId, MenuCategory $menuCategory): View
+    {
+        return view('menu.categories.form', [
+            'restaurantId' => $restaurantId,
+            'item' => $menuCategory
+        ]);
+    }
+
+    /**
+     * @param int $restaurantId
      * @param MenuCategoryStoreRequest $request
      * @return RedirectResponse
      */
