@@ -4,6 +4,10 @@
 namespace App\Services;
 
 
+use App\DTO\Base\CollectionDTO;
+use App\DTO\MenuCategoryDTO;
+use App\DTO\MenuDTO;
+use App\DTO\MenuItemDTO;
 use App\Helpers\BlurhashHelper;
 use App\MenuCategory;
 use App\MenuItem;
@@ -39,14 +43,6 @@ class MenuService
     }
 
     /**
-     * @return Collection
-     */
-    public function getAllMenuCategories(int $restaurantId): Collection
-    {
-        return MenuCategory::query()->where('restaurant_id', '=', $restaurantId)->get();
-    }
-
-    /**
      * @param MenuCategory $menuCategory
      * @throws \Exception
      */
@@ -79,17 +75,39 @@ class MenuService
         $menuItem->delete();
     }
 
+    public function getMenuJson(int $restaurant): array
+    {
+        $menuCategories = $this->getAllMenuCategories($restaurant);
+        $menuItems = $this->getAllMenuItems($restaurant);
+
+        $menuCategoriesDTO = new CollectionDTO();
+        foreach ($menuCategories as $menuCategory) {
+            $menuCategoriesDTO->pushItem(new MenuCategoryDTO($menuCategory));
+        }
+
+        $menuItemsDTO = new CollectionDTO();
+
+        foreach ($menuItems as $menuItem) {
+            $menuItemsDTO->pushItem(new MenuItemDTO($menuItem));
+        }
+
+        $menuDTO = new MenuDTO($menuCategoriesDTO, $menuItemsDTO);
+        return $menuDTO->jsonData();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllMenuCategories(int $restaurantId): Collection
+    {
+        return MenuCategory::query()->where('restaurant_id', '=', $restaurantId)->get();
+    }
+
     /**
      * @return Collection
      */
     public function getAllMenuItems(int $restaurantId): Collection
     {
-//        return MenuItem::query()
-//            ->with('category.restaurant', function ($query) use ($restaurantId) {
-//                $query->where('restaurant_id', '=', $restaurantId);
-//            })
-//            ->with('category')
-//            ->get();
         return MenuItem::query()
             ->whereHas('category.restaurant', function (Builder $query) use ($restaurantId) {
                 $query->where('restaurant_id', '=', $restaurantId);

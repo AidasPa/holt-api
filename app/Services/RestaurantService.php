@@ -4,6 +4,9 @@
 namespace App\Services;
 
 
+use App\DTO\Base\CollectionDTO;
+use App\DTO\Base\PaginateLengthAwareDTO;
+use App\DTO\RestaurantDTO;
 use App\Helpers\BlurhashHelper;
 use App\Restaurant;
 use Illuminate\Http\UploadedFile;
@@ -21,7 +24,6 @@ class RestaurantService
     {
         $this->blurhashHelper = $blurhashHelper;
     }
-
 
     /**
      * @param array $data
@@ -49,4 +51,58 @@ class RestaurantService
 
         $restaurant->save();
     }
+
+    /**
+     * @return PaginateLengthAwareDTO
+     */
+    public function getAllRestaurantsJson(): PaginateLengthAwareDTO
+    {
+        $restaurants = Restaurant::query()
+            ->with('categories')
+            ->orderBy('created_at')
+            ->paginate(15);
+
+        $paginateDTO = new PaginateLengthAwareDTO($restaurants);
+        $restaurantsDTO = new CollectionDTO();
+        foreach ($restaurants as $restaurant) {
+            $restaurantsDTO->pushItem(new RestaurantDTO($restaurant));
+        }
+
+        $paginateDTO->setData($restaurantsDTO);
+        return $paginateDTO;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLast3RestaurantsJson(): array
+    {
+        $restaurants = Restaurant::query()
+            ->orderBy('created_at')
+            ->limit(3)
+            ->get();
+        $restaurantsDTO = new CollectionDTO();
+
+        foreach ($restaurants as $restaurant) {
+            $restaurantsDTO->pushItem(new RestaurantDTO($restaurant));
+        }
+
+        return $restaurantsDTO->jsonData();
+    }
+
+    public function updateRestaurantWithRelations(Restaurant $restaurant, array $data, array $categoryIds): void
+    {
+
+    }
+
+    /**
+     * @param Restaurant $restaurant
+     * @throws \Exception
+     */
+    public function deleteRestaurant(Restaurant $restaurant): void
+    {
+        $restaurant->delete();
+    }
+
+
 }

@@ -4,18 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CategoryStoreRequest;
+use App\Services\CategoryService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
+    protected CategoryService $categoryService;
+
+    /**
+     * CategoryController constructor.
+     * @param CategoryService $categoryService
+     */
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
+
     /**
      * @return View
      */
     public function index(): View
     {
-        $categories = Category::all();
+        $categories = $this->categoryService->getAllCategories();
 
         return view('categories.list', [
             'items' => $categories
@@ -36,11 +48,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryStoreRequest $request): RedirectResponse
     {
-        $category = new Category($request->getData());
-        if ($image = $request->getImage()) {
-            $category->image = Storage::disk('public')->putFile('category_images', $image);
-        }
-        $category->save();
+        $this->categoryService->createCategory($request->getData(), $request->getImage());
 
         return redirect()->route('categories.index')
             ->with('status', 'Category created.');

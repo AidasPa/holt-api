@@ -87,6 +87,7 @@ class MenuItemController extends Controller
      * @param int $restaurantId
      * @param MenuItem $item
      * @return RedirectResponse
+     * @throws \Exception
      */
     public function destroy(int $restaurantId, MenuItem $item): RedirectResponse
     {

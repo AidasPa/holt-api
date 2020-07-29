@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\DTO\Base\CollectionDTO;
-use App\DTO\Base\PaginateDTO;
 use App\DTO\Base\PaginateLengthAwareDTO;
 use App\DTO\RestaurantDTO;
 use App\Http\Controllers\Controller;
@@ -30,20 +29,9 @@ class RestaurantController extends Controller
      */
     public function index(): JsonResponse
     {
-        $restaurants = Restaurant::query()
-        ->with('categories')
-        ->orderBy('created_at')
-        ->paginate(15);
 
-        $paginateDTO = new PaginateLengthAwareDTO($restaurants);
-        $restaurantsDTO = new CollectionDTO();
-        foreach ($restaurants as $restaurant) {
-            $restaurantsDTO->pushItem(new RestaurantDTO($restaurant));
-        }
-
-        $paginateDTO->setData($restaurantsDTO);
-
-        return response()->json($paginateDTO);
+        $restaurants = $this->restaurantService->getAllRestaurantsJson();
+        return response()->json($restaurants);
     }
 
     /**
@@ -51,17 +39,9 @@ class RestaurantController extends Controller
      */
     public function recent(): JsonResponse
     {
-        $restaurants = Restaurant::query()
-            ->orderBy('created_at')
-            ->limit(10)
-            ->get();
-        $restaurantsDTO = new CollectionDTO();
+        $restaurants = $this->restaurantService->getLast3RestaurantsJson();
 
-        foreach ($restaurants as $restaurant) {
-            $restaurantsDTO->pushItem(new RestaurantDTO($restaurant));
-        }
-
-        return response()->json($restaurantsDTO);
+        return response()->json($restaurants);
     }
 
     public function show(Restaurant $restaurant): JsonResponse

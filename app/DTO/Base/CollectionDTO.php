@@ -31,7 +31,7 @@ class CollectionDTO extends DTO
     /**
      * @return array
      */
-    protected function jsonData(): array
+    public function jsonData(): array
     {
         return $this->collection->toArray();
     }

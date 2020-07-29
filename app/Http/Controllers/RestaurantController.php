@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Helpers\BlurhashHelper;
 use App\Http\Requests\RestaurantStoreRequest;
 use App\Http\Requests\RestaurantUpdateRequest;
 use App\Restaurant;
+use App\Services\CategoryService;
 use App\Services\RestaurantService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class RestaurantController extends Controller
 {
-    protected BlurhashHelper $blurhashHelper;
     protected RestaurantService $restaurantService;
+    protected CategoryService $categoryService;
 
     /**
      * RestaurantController constructor.
-     * @param BlurhashHelper $blurhashHelper
      * @param RestaurantService $restaurantService
+     * @param CategoryService $categoryService
      */
-    public function __construct(BlurhashHelper $blurhashHelper, RestaurantService $restaurantService)
+    public function __construct(
+        RestaurantService $restaurantService,
+        CategoryService $categoryService)
     {
-        $this->blurhashHelper = $blurhashHelper;
         $this->restaurantService = $restaurantService;
+        $this->categoryService = $categoryService;
     }
 
 
@@ -46,7 +47,7 @@ class RestaurantController extends Controller
      */
     public function create(): View
     {
-        $categories = Category::all()->pluck('title', 'id');
+        $categories = $this->categoryService->getPluckedCategories();
 
         return view('restaurants.form', [
             'categories' => $categories
@@ -71,9 +72,15 @@ class RestaurantController extends Controller
             ->with('status', 'Restaurant created.');
     }
 
+    /**
+     * @param Restaurant $restaurant
+     * @return View
+     */
     public function edit(Restaurant $restaurant): View
     {
-        $categories = Category::all()->pluck('title', 'id');
+        $categories = $this->categoryService->getPluckedCategories();
+
+        // Nededam i servisa, nes restorana automatiskai uzkrauna laravelis
         $categoryIds = $restaurant->categories()->pluck('id')->toArray();
 
 
