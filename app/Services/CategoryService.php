@@ -6,10 +6,11 @@ namespace App\Services;
 
 use App\Category;
 use App\DTO\Base\CollectionDTO;
-use App\DTO\Base\PaginateDTO;
+use App\DTO\Base\ExtendedPaginateLengthAwareDTO;
 use App\DTO\Base\PaginateLengthAwareDTO;
 use App\DTO\CategoryDTO;
 use App\DTO\RestaurantDTO;
+use App\Helpers\BlurhashHelper;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -69,15 +70,39 @@ class CategoryService
      */
     public function getRestaurantsByCategoryJson(Category $category): PaginateLengthAwareDTO
     {
-        $restaurants = $category->restaurants()->paginate();
+        $restaurants = $category->restaurants()->paginate(1);
 
-        $paginateDTO = new PaginateLengthAwareDTO($restaurants);
+        $paginateDTO = new ExtendedPaginateLengthAwareDTO($restaurants);
         $restaurantsDTO = new CollectionDTO();
         foreach ($restaurants as $restaurant) {
             $restaurantsDTO->pushItem(new RestaurantDTO($restaurant));
         }
 
         $paginateDTO->setData($restaurantsDTO);
+        $paginateDTO->setExtendedData(new CategoryDTO($category));
         return $paginateDTO;
+    }
+
+    /**
+     * @param array $data
+     * @param UploadedFile|null $image
+     * @param Category $category
+     */
+    public function updateCategory(array $data, ?UploadedFile $image, Category $category): void
+    {
+        if($image) {
+            $data['image'] = Storage::disk('public')->putFile('category_images', $image);
+            $data['image_blurhash'] = BlurhashHelper::generateBlurhash($image);
+        }
+        $category->update($data);
+    }
+
+    /**
+     * @param Category $category
+     * @throws \Exception
+     */
+    public function deleteCategory(Category $category): void
+    {
+        $category->delete();
     }
 }

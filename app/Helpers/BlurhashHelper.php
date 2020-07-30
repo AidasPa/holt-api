@@ -14,7 +14,7 @@ class BlurhashHelper
      * @param UploadedFile $uploadedFile
      * @return string
      */
-    public function generateBlurhash(UploadedFile $uploadedFile): string
+    public static function generateBlurhash(UploadedFile $uploadedFile): string
     {
         $image = Image::make($uploadedFile)->getCore();
         $width = imagesx($image);

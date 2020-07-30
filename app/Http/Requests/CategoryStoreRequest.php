@@ -51,8 +51,8 @@ class CategoryStoreRequest extends FormRequest
     /**
      * @return array|UploadedFile|UploadedFile[]|null
      */
-    public function getImage()
+    public function getImage(): ?UploadedFile
     {
-        return $this->file('image', false);
+        return $this->file('image');
     }
 }

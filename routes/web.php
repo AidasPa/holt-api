@@ -19,12 +19,12 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('restaurants', 'RestaurantController')->only(['index', 'create', 'store', 'destroy', 'edit', 'update']);
-    Route::resource('categories', 'CategoryController')->only(['index', 'create', 'store']);
+    Route::resource('categories', 'CategoryController')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
     Route::resource('/restaurants/{restaurant}/menu/categories', 'MenuController')->only(['index']);
 
     Route::prefix('restaurants/{restaurant}/menu')->name('restaurants.menu.')->group(function () {
-        Route::resource('categories', 'MenuCategoryController')->only(['index', 'create', 'store', 'destroy']);
+        Route::resource('categories', 'MenuCategoryController')->only(['index', 'create', 'store', 'destroy', 'update', 'edit']);
         Route::resource('items', 'MenuItemController')->only(['index', 'create', 'store', 'destroy', 'edit']);
     });
 });

@@ -18,17 +18,6 @@ use Illuminate\Support\Facades\Storage;
 
 class MenuService
 {
-    protected BlurhashHelper $blurhashHelper;
-
-    /**
-     * MenuService constructor.
-     * @param BlurhashHelper $blurhashHelper
-     */
-    public function __construct(BlurhashHelper $blurhashHelper)
-    {
-        $this->blurhashHelper = $blurhashHelper;
-    }
-
 
     /**
      * @param array $data
@@ -60,7 +49,7 @@ class MenuService
     {
         $menuItem = new MenuItem($data);
         $menuItem->image = Storage::disk('public')->putFile('menu_item_images', $image);
-        $menuItem->image_blurhash = $this->blurhashHelper->generateBlurhash($image);
+        $menuItem->image_blurhash = BlurhashHelper::generateBlurhash($image);
         $menuItem->menu_category_id = $menuCategoryId;
 
         $menuItem->save();

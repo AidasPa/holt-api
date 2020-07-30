@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
 
             $table->string('title')->index();
             $table->text('image')->nullable();
+            $table->string('image_blurhash')->nullable();
 
             $table->timestamps();
         });

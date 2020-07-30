@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     protected $fillable = [
-        'title', 'image'
+        'title', 'image', 'image_blurhash'
     ];
 
     public function restaurants(): BelongsToMany

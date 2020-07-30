@@ -32,14 +32,22 @@
                                     <td>{{ $item->title }}</td>
                                     <td>
                                         @if($item->image)
-                                        <img width="100px" src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" />
+                                            <img width="100px"
+                                                 src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}"/>
                                         @else
-                                        No IMG
+                                            No IMG
                                         @endif
                                     </td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary text-white">Edit</a>
-                                        <a class="btn btn-sm btn-danger text-white">Delete</a>
+                                        <a class="btn btn-sm btn-primary text-white"
+                                           href="{{ route('categories.edit', ['category' => $item->id])  }}">Edit</a>
+                                        <form method="post"
+                                              action="{{ route('categories.destroy', ['category' => $item->id]) }}">
+                                            @method('delete')
+                                            @csrf
+                                            <input type="submit" class="btn btn-sm btn-danger text-white" value="Delete"
+                                                   onclick="return confirm('Do you really want to delete a record?');">
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

@@ -24,10 +24,10 @@ class CreateRestaurantsTable extends Migration
             $table->string('address');
 
             $table->text('image');
-            $table->text('banner');
+            $table->text('banner')->nullable();
 
             $table->string('image_blurhash');
-            $table->string('banner_blurhash');
+            $table->string('banner_blurhash')->nullable();
 
             $table->timestamps();
         });

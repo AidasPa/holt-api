@@ -15,16 +15,6 @@ use Illuminate\Support\Facades\Storage;
 
 class RestaurantService
 {
-    protected BlurhashHelper $blurhashHelper;
-
-    /**
-     * RestaurantService constructor.
-     * @param BlurhashHelper $blurhashHelper
-     */
-    public function __construct(BlurhashHelper $blurhashHelper)
-    {
-        $this->blurhashHelper = $blurhashHelper;
-    }
 
     /**
      * @param array $data
@@ -39,8 +29,8 @@ class RestaurantService
      ?UploadedFile $banner): void
     {
 
-        $imageBlurhash = $this->blurhashHelper->generateBlurhash($image);
-        $bannerBlurhash = $banner ? $this->blurhashHelper->generateBlurhash($banner) : null;
+        $imageBlurhash = BlurhashHelper::generateBlurhash($image);
+        $bannerBlurhash = $banner ? BlurhashHelper::generateBlurhash($banner) : null;
 
         $restaurant = new Restaurant($data);
         $restaurant->image = Storage::disk('public')->putFile('restaurant_images', $image);
@@ -107,11 +97,11 @@ class RestaurantService
     {
         if ($image) {
             $data['image'] = Storage::disk('public')->putFile('restaurant_images', $image);
-            $data['image_blurhash'] = $this->blurhashHelper->generateBlurhash($image);
+            $data['image_blurhash'] = BlurhashHelper::generateBlurhash($image);
         }
         if($banner) {
             $data['banner'] = Storage::disk('public')->putFile('restaurant_images', $banner);
-            $data['banner_blurhash'] = $this->blurhashHelper->generateBlurhash($banner);
+            $data['banner_blurhash'] = BlurhashHelper::generateBlurhash($banner);
         }
         $restaurant->update($data);
         $restaurant->categories()->sync($categoryIds);

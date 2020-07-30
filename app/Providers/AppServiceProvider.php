@@ -17,8 +17,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(BlurhashHelper::class);
-
         $this->app->singleton(RestaurantService::class);
         $this->app->singleton(MenuService::class);
         $this->app->singleton(CategoryService::class);
