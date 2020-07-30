@@ -103,4 +103,18 @@ class MenuService
             })
             ->get();
     }
+
+    /**
+     * @param array $data
+     * @param UploadedFile|null $image
+     * @param MenuItem $menuItem
+     */
+    public function updateMenuItem(array $data, ?UploadedFile $image, MenuItem $menuItem): void
+    {
+        if($image) {
+            $data['image'] = Storage::disk('public')->putFile($image);
+            $data['image_blurhash'] = BlurhashHelper::generateBlurhash($image);
+        }
+        $menuItem->update($data);
+    }
 }

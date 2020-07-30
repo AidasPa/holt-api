@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MenuItemStoreRequest;
+use App\Http\Requests\MenuItemUpdateRequest;
 use App\MenuItem;
 use App\Services\MenuService;
 use Illuminate\Http\RedirectResponse;
@@ -81,6 +82,21 @@ class MenuItemController extends Controller
             'restaurantId' => $restaurantId,
             'menuCategories' => $menuCategories
         ]);
+    }
+
+    /**
+     * @param MenuItemUpdateRequest $request
+     * @param int $restaurantId
+     * @param MenuItem $item
+     * @return RedirectResponse
+     */
+    public function update(MenuItemUpdateRequest $request, int $restaurantId, MenuItem $item): RedirectResponse
+    {
+        $this->menuService->updateMenuItem($request->getData(), $request->getImage(), $item);
+
+        return redirect()->route('restaurants.menu.items.index', [
+            'restaurant' => $restaurantId
+        ])->with('status', 'Menu item updated.');
     }
 
     /**

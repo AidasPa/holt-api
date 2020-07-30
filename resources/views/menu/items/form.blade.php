@@ -15,8 +15,11 @@
                     </div>
 
                     <form method="post"
-                          action="{{ route('restaurants.menu.items.store', ['restaurant' => $restaurantId]) }}"
+                          action="{{ route(isset($item->id) ? 'restaurants.menu.items.update' : 'restaurants.menu.items.store', ['restaurant' => $restaurantId, 'item' => $item->id ?? null]) }}"
                           enctype="multipart/form-data">
+                        @if(isset($item->id))
+                            @method('put')
+                        @endif
                         @csrf
                         <div class="card-body">
                             @if (session('status'))
@@ -52,6 +55,10 @@
                                 <em class="alert-danger">{{ $message }}</em>
                                 @enderror
                             </div>
+                            @if(isset($item->id))
+                                <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}"
+                                     width="50%"/>
+                            @endif
                             <div class="form-group">
                                 <label for="image">Image</label>
                                 <input class="form-control-file"
