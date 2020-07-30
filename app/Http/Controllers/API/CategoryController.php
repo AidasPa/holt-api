@@ -24,10 +24,23 @@ class CategoryController extends Controller
     }
 
 
+    /**
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         $categories = $this->categoryService->getAllCategoriesJson();
         return response()->json($categories);
+    }
+
+    /**
+     * @param Category $category
+     * @return JsonResponse
+     */
+    public function restaurants(Category $category): JsonResponse
+    {
+        $restaurants = $this->categoryService->getRestaurantsByCategoryJson($category);
+        return response()->json($restaurants);
     }
 
 }

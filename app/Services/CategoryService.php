@@ -6,7 +6,10 @@ namespace App\Services;
 
 use App\Category;
 use App\DTO\Base\CollectionDTO;
+use App\DTO\Base\PaginateDTO;
+use App\DTO\Base\PaginateLengthAwareDTO;
 use App\DTO\CategoryDTO;
+use App\DTO\RestaurantDTO;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -58,5 +61,23 @@ class CategoryService
     public function getPluckedCategories(): \Illuminate\Support\Collection
     {
         return Category::all()->pluck('title', 'id');
+    }
+
+    /**
+     * @param Category $category
+     * @return PaginateLengthAwareDTO
+     */
+    public function getRestaurantsByCategoryJson(Category $category): PaginateLengthAwareDTO
+    {
+        $restaurants = $category->restaurants()->paginate();
+
+        $paginateDTO = new PaginateLengthAwareDTO($restaurants);
+        $restaurantsDTO = new CollectionDTO();
+        foreach ($restaurants as $restaurant) {
+            $restaurantsDTO->pushItem(new RestaurantDTO($restaurant));
+        }
+
+        $paginateDTO->setData($restaurantsDTO);
+        return $paginateDTO;
     }
 }

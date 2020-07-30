@@ -26,6 +26,7 @@ class MenuItemDTO extends Base\DTO
     protected function jsonData(): array
     {
         return [
+            'id' => $this->menuItem->id,
             'title' => $this->menuItem->title,
             'description' => $this->menuItem->description,
             'price' => $this->menuItem->price,

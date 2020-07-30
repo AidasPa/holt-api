@@ -38,4 +38,5 @@ Route::namespace('API')->group(function () {
     });
 
     Route::get('/categories', 'CategoryController@index');
+    Route::get('/categories/{category}', 'CategoryController@restaurants');
 });
